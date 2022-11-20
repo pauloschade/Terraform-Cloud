@@ -1,0 +1,16 @@
+{
+  "instances": {
+    "small-1": {
+      "name": "sm-Paulo-1",
+      "size": "small"
+    },
+    "micro-2": {
+      "name": "mc-Paulo-2",
+      "size": "micro"
+    },
+    "small-3": {
+      "name": "sm-Paulo-3",
+      "size": "small"
+    }
+  }
+}
