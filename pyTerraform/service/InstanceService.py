@@ -21,7 +21,7 @@ class InstanceService:
     return instance
 
   def _get_instance(self, json_data ,instance_name):
-    instance_json = json_data[instance_name]
+    instance_json = json_data["instances"][instance_name]
     return Instance(**instance_json)
 
   def _crete_instance(self, name):

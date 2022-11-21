@@ -4,7 +4,7 @@ from pyTerraform.entity.SGRule import SGRule
 from pyTerraform.entity.Instance import Instance
 
 def create_sg_rule():
-  name = input("Enter rule name")
+  name = input("Enter rule name: ")
   rule_type = input("Enter rule type (ingress/egress): ")
   cidr = input("Enter cidr: ")
   protocol = input("Enter protocol: ")
@@ -24,7 +24,7 @@ def add_sg_rule(sg):
 def create_sg():
   sg_name = input("Enter security group name: ")
   sg = SG(sg_name)
-  add_sg_rule(sg)
+  return add_sg_rule(sg)
 
 def add_sg(instance):
   while True:
@@ -41,4 +41,5 @@ def create_instance():
   size = input("Enter instance size (small/tiny): ")
   instance = Instance(f"{name}-{size}",size)
   add_sg(instance)
+  return instance
   

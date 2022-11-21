@@ -33,6 +33,9 @@ class pyTerraform:
 
   def add_instance(self):
     self._add_instance()
+
+  def add_sg(self):
+    self._add_sg()
   
   def remove_last_instance(self):
     if len(self.added_instances) == 0:
@@ -62,6 +65,14 @@ class pyTerraform:
     instance = create_instance()
     data = self._open_json()
     data = self.instance_service.add_instance(data, instance)
+    self.write_json(data)
+  
+  def _add_sg(self):
+    instance_name = input("Instance name: ")
+    data = self._open_json()
+    instance = self.instance_service._get_instance(data, instance_name)
+    instance_added = add_sg(instance)
+    data = self.instance_service.add_instance(data, instance_added)
     self.write_json(data)
 
   # def _remove_instance(self, instance):

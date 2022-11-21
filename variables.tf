@@ -44,22 +44,21 @@ variable "instances" {
         protocol        = string
       }))
     }))
-    existing_sg_ids  = list(string)
   }))
 }
 
-variable "security_groups" {
-  type = map(object({
-    name              = string
-    rules             = map(object({
-      rule_type       = string 
-      cidr            = list(string)
-      from_port       = number
-      to_port         = number
-      protocol        = string
-    }))
-  }))
-}
+# variable "security_groups" {
+#   type = map(object({
+#     name              = string
+#     rules             = map(object({
+#       rule_type       = string 
+#       cidr            = list(string)
+#       from_port       = number
+#       to_port         = number
+#       protocol        = string
+#     }))
+#   }))
+# }
 
 variable "PUBLIC_KEY_PATH" {
   type = string

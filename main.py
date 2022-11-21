@@ -19,6 +19,7 @@ def rules():
   print("2 - destroy instances\n")
   print("3 - plan\n")
   print("4 - add instance\n")
+  print("5 - add security group\n")
   print("7 - remove instance\n")
   print("9 - quit program\n")
 
@@ -61,6 +62,9 @@ def terraform_prog(pyTerra):
 
     if action == "4":
       pyTerra.add_instance()
+
+    if action == "5":
+      pyTerra.add_sg()
     
     if action == "7":
       pyTerra.remove_last_instance()

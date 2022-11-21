@@ -23,7 +23,7 @@ resource "aws_instance" "web" {
   tags = {
       Name = var.instance_name
   }
-  vpc_security_group_ids = local.security_group_ids
+  vpc_security_group_ids = [for k, v in module.sg : v.sg_id]
   subnet_id = var.vpc_subnet_id
   key_name = var.ssh_key_name
 }

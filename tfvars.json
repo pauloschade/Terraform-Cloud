@@ -1,3 +1,45 @@
 {
-  "instances": {}
+  "instances": {
+    "teste-0-small": {
+      "name": "teste-0-small",
+      "security_groups": {
+        "later": {
+          "name": "later",
+          "rules": {
+            "lat": {
+              "cidr": [
+                "0.0.0.0/0"
+              ],
+              "from_port": "24",
+              "name": "lat",
+              "protocol": "tcp",
+              "rule_type": "ingress",
+              "to_port": "24"
+            }
+          }
+        },
+        "teste": {
+          "name": "teste",
+          "rules": {
+            "rule_teste": {
+              "cidr": [
+                "0.0.0.0/0"
+              ],
+              "from_port": "80",
+              "name": "rule_teste",
+              "protocol": "tcp",
+              "rule_type": "egress",
+              "to_port": "80"
+            }
+          }
+        }
+      },
+      "size": "small"
+    },
+    "zig-small": {
+      "name": "zig-small",
+      "security_groups": {},
+      "size": "small"
+    }
+  }
 }

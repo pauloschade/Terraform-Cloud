@@ -37,7 +37,7 @@ variable "ssh_key_name" {
 
 variable "existing_sg_ids" {
   type = list(string)
-  default = ["id-1", "id-2"]
+  default = []
 }
 
 variable "security_groups" {
