@@ -18,10 +18,19 @@ def rules():
   print("1 - deploy instances\n")
   print("2 - destroy instances\n")
   print("3 - plan\n")
-  print("5 - add micro instance\n")
-  print("6 - add small instance\n")
+  print("4 - add instance\n")
   print("7 - remove instance\n")
   print("9 - quit program\n")
+
+def rules_instances():
+  print("You can choose the following: \n")
+  print("1 - small\n")
+  print("2 - tiny\n")
+
+def rules_sg():
+  print("You can choose the following: \n")
+  print("1 - web\n")
+  print("2 - db\n")
 
 def terraform_prog(pyTerra):
   welcome()
@@ -51,16 +60,7 @@ def terraform_prog(pyTerra):
       continue  
 
     if action == "4":
-      print(pyTerra._open_json())
-      continue  
-    
-    if action == "5":
-      pyTerra.add_micro_instance()
-      continue
-    
-    if action == "6":
-      pyTerra.add_small_instance()
-      continue
+      pyTerra.add_instance()
     
     if action == "7":
       pyTerra.remove_last_instance()

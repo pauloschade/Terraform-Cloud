@@ -1,5 +1,8 @@
 import subprocess
 import json
+from pyTerraform.service.InstanceService import InstanceService
+from pyTerraform.service.SGService import SGService
+from pyTerraform.helpers.pyTerraformCreation import create_sg_rule, create_sg, create_instance, add_sg, add_sg_rule
 
 class pyTerraform:
   def __init__(self):
@@ -9,7 +12,9 @@ class pyTerraform:
     self.plan = "terraform plan -var-file="
     self.json_path = "tfvars.json"
     self.counter_extra = 0
-    self.added_instances = []
+    self.instance_service = InstanceService()
+    self.sg_service = SGService()
+
 
   def run_apply(self):
     self._run_process(self.apply + self.json_path)
@@ -26,15 +31,8 @@ class pyTerraform:
   def run_plan(self):
     self._run_process(self.plan + self.json_path)
 
-  def add_micro_instance(self):
-    self.counter_extra += 1
-    self._add_instance(f"micro-{self.counter_extra}", self._micro_instance())
-    self._print_suc("MICRO INSTANCE ADDED")
-  
-  def add_small_instance(self):
-    self.counter_extra += 1
-    self._add_instance(f"small-{self.counter_extra}" ,self._small_instance())
-    self._print_suc("SMALL INSTANCE ADDED")
+  def add_instance(self):
+    self._add_instance()
   
   def remove_last_instance(self):
     if len(self.added_instances) == 0:
@@ -55,32 +53,38 @@ class pyTerraform:
     with open(self.json_path) as f:
       data = json.load(f)
     return data
-
-  def _remove_instance(self, instance):
-    data = self._open_json()
-    data["instances"].remove(instance)
-    with open(self.json_path, "w") as f:
+  
+  def write_json(self, data):
+    with open(self.json_path, 'w') as f:
       json.dump(data, f, indent=2)
-
-
-  def _add_instance(self, type, instance):
+  
+  def _add_instance(self):
+    instance = create_instance()
     data = self._open_json()
-    data["instances"][type] = (instance)
-    self.added_instances.append(type)
-    with open(self.json_path, "w") as f:
-      json.dump(data, f, indent=2)
+    data = self.instance_service.add_instance(data, instance)
+    self.write_json(data)
+
+  # def _remove_instance(self, instance):
+  #   data = self._open_json()
+  #   data["instances"].remove(instance)
+  #   with open(self.json_path, "w") as f:
+  #     json.dump(data, f, indent=2)
+
+
+  # def _add_instance(self, type, instance):
+  #   data = self._open_json()
+  #   data["instances"][type] = (instance)
+  #   self.added_instances.append(type)
+  #   with open(self.json_path, "w") as f:
+  #     json.dump(data, f, indent=2)
   
   def _print_suc(self, txt):
     print(f"\033[1;32m{txt}")
     print("\033[1;0m")
 
-  def _micro_instance(self):
-    return  {
-        "name"              : f"mc-Paulo-{self.counter_extra}",
-        "size"              : "micro"
-      }
-  def _small_instance(self):
-    return { 
-        "name"              : f"sm-Paulo-{self.counter_extra}",
-        "size"              : "small"
-      }
+  # def _instance(self, size ,sg):
+  #   return  {
+  #       "name"              : f"{size}-Paulo-{self.counter_extra}",
+  #       "size"              : size,
+  #       "sg"                : sg
+  #     }

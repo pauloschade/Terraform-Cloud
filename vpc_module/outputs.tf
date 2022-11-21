@@ -1,5 +1,5 @@
 output "subnet_id" {
-  value = aws_subnet.this.id
+  value = aws_subnet.pub.id
 }
 
 output "subnet_cidr" {
@@ -14,6 +14,6 @@ output "vpc_cidr" {
   value = var.vpcCIDRblock
 }
 
-# output "security_groups" {
-#   value = [aws_security_group.ssh-allowed.id]
-# }
+output "priv_subnet_id" {
+  value = aws_subnet.priv.id
+}
