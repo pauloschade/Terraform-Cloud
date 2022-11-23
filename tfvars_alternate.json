@@ -1,20 +1,20 @@
 {
   "instances": {
-    "pauloUhul-small": {
-      "name": "pauloUhul-small",
+    "pauloWest-small": {
+      "name": "pauloWest-small",
       "security_groups": {
-        "pauloSec": {
-          "name": "pauloSec",
+        "kanye": {
+          "name": "kanye",
           "rules": {
-            "ola": {
+            "kwsr": {
               "cidr": [
                 "0.0.0.0/0"
               ],
-              "from_port": "24",
-              "name": "ola",
+              "from_port": "23",
+              "name": "kwsr",
               "protocol": "tcp",
               "rule_type": "ingress",
-              "to_port": "24"
+              "to_port": "23"
             }
           }
         }

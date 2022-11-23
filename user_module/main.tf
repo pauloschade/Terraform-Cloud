@@ -1,7 +1,10 @@
 resource "aws_iam_user" "this" {
-  for_each = toset(var.users)
-  name     = each.key
+  name     = var.user_name
 }
+
+# resource "aws_iam_user_login_profile" "this" {
+#   user    = var.user_name
+# }
 
 # resource "aws_iam_user_policy" "this" {
 #   name = var.policy_name

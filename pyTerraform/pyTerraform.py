@@ -14,6 +14,8 @@ class pyTerraform:
     self.counter_extra = 0
     self.instance_service = InstanceService()
     self.sg_service = SGService()
+    self.change_default = "terraform workspace select default"
+    self.change_alternate = "terraform workspace select alternate"
 
 
   def run_apply(self):
@@ -25,6 +27,7 @@ class pyTerraform:
     self._print_suc("INSTANCES DESTROYED")
 
   def run_init(self):
+    self._init_workspaces()
     self._run_process(self.init)
     self._print_suc("TERRAFORM INITIALIZED")
   
@@ -34,16 +37,34 @@ class pyTerraform:
   def add_instance(self):
     self._add_instance()
 
+  def remove_instance(self):
+    instance_name = input("Instance name: ")
+    self._remove_instance(instance_name)
+
   def add_sg(self):
-    self._add_sg()
-  
-  def remove_last_instance(self):
-    if len(self.added_instances) == 0:
-      print("No instances to remove")
+    instance_name = input("Instance name: ")
+    self._add_sg(instance_name)
+
+  def add_sg_rule(self):
+    instance_name = input("Instance name: ")
+    sg_name = input("SG name: ")
+    self._add_sg_rule(instance_name, sg_name)
+
+  def remove_sg_rule(self):
+    instance_name = input("Instance name: ")
+    sg_name = input("SG name: ")
+    sg_rule_name = input("SG rule name: ")
+    self._remove_sg_rule(instance_name, sg_name, sg_rule_name)
+
+  def switch_region(self):
+    region = input("Region (east/west): ")
+    if region == "east":
+     self._change_default()
+    elif region == "west":
+      self._change_alternate()
+    else:
+      print("Invalid region")
       return
-    self._remove_instance(self.added_instances[-1])
-    self.added_instances.pop()
-    self._print_suc("INSTANCE REMOVED")
   
   def _run_process(self, arg):
     print("-------------------------------\n")
@@ -67,35 +88,51 @@ class pyTerraform:
     data = self.instance_service.add_instance(data, instance)
     self.write_json(data)
   
-  def _add_sg(self):
-    instance_name = input("Instance name: ")
+  def _add_sg(self, instance_name):
     data = self._open_json()
     instance = self.instance_service._get_instance(data, instance_name)
     instance_added = add_sg(instance)
     data = self.instance_service.add_instance(data, instance_added)
     self.write_json(data)
+  
+  def _remove_instance(self, instance_name):
+    data = self._open_json()
+    data = self.instance_service.remove_instance(data, instance_name)
+    self.write_json(data)
 
-  # def _remove_instance(self, instance):
-  #   data = self._open_json()
-  #   data["instances"].remove(instance)
-  #   with open(self.json_path, "w") as f:
-  #     json.dump(data, f, indent=2)
+  def _add_sg_rule(self, instance_name, sg_name):
+    data = self._open_json()
+    sg = self.sg_service._get_sg(data["instances"][instance_name], sg_name)
+    add_sg_rule(sg)
+    sg_edited = self.sg_service.add_sg(data["instances"][instance_name], sg)
+    data["instances"][instance_name] = sg_edited
+    self.write_json(data)
 
-
-  # def _add_instance(self, type, instance):
-  #   data = self._open_json()
-  #   data["instances"][type] = (instance)
-  #   self.added_instances.append(type)
-  #   with open(self.json_path, "w") as f:
-  #     json.dump(data, f, indent=2)
+  
+  def _remove_sg_rule(self, instance_name, sg_name, sg_rule_name):
+    data = self._open_json()
+    data_sg_rule_removed = self.sg_service.remove_rule(sg_name, sg_rule_name, data["instances"][instance_name])
+    data["instances"][instance_name] = data_sg_rule_removed
+    self.write_json(data)
+    
   
   def _print_suc(self, txt):
     print(f"\033[1;32m{txt}")
     print("\033[1;0m")
 
-  # def _instance(self, size ,sg):
-  #   return  {
-  #       "name"              : f"{size}-Paulo-{self.counter_extra}",
-  #       "size"              : size,
-  #       "sg"                : sg
-  #     }
+  def _change_default(self):
+    p = subprocess.Popen(self.change_default, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    self.json_path = "tfvars.json"
+    print("switched to default - east region")
+  
+  def _change_alternate(self):
+    p = subprocess.Popen(self.change_alternate, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    self.json_path = "tfvars_alternate.json"
+    print("switched to alternate - west region")
+
+  def _init_workspaces(self):
+    print("Initializing workspaces")
+    try:
+      self._run_process("terraform workspace new alternate")
+    except:
+      print("alternate workspace already exists")

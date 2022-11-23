@@ -9,12 +9,13 @@ terraform {
 
 
 provider "aws" {
-  region  = var.aws_region
+  region  = local.region
   profile = var.aws_profile
 }
 
 module "vpc" {
   source = "./vpc_module"
+  aws_region = local.region
 }
 
 # module "security_groups" {
@@ -40,7 +41,7 @@ module "instance" {
 
   instance_name = "${lookup(var.base_instance, "name")}${lookup(each.value, "name", "default")}"
   instance_type = "${lookup(var.base_instance, "type")}${lookup(each.value, "size", "tiny")}"
-  instance_ami  = lookup(var.base_instance, "ami")
+  instance_ami  = local.ami
 
   vpc_subnet_id = module.vpc.subnet_id
   vpc_id = module.vpc.vpc_id
@@ -52,8 +53,4 @@ module "instance" {
 resource "aws_key_pair" "this" {
   key_name = "projeto-cloud"
   public_key = file(var.PUBLIC_KEY_PATH)
-}
-
-module "user" {
-  source = "./user_module"
 }
