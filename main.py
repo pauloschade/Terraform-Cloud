@@ -14,14 +14,27 @@ def goodbye():
 
 def rules():
   print("You can choose the following: \n")
+  print("-1 - quit program\n")
   print("0 - init\n")
   print("1 - deploy instances\n")
   print("2 - destroy instances\n")
   print("3 - plan\n")
-  print("5 - add micro instance\n")
-  print("6 - add small instance\n")
-  print("7 - remove instance\n")
-  print("9 - quit program\n")
+  print("4 - add instance\n")
+  print("5 - remove instance\n")
+  print("6 - add sg\n")
+  print("7 - add sg rule\n")
+  print("8 - remove sg rule\n")
+  print("9 - switch region\n")
+
+def rules_instances():
+  print("You can choose the following: \n")
+  print("1 - small\n")
+  print("2 - tiny\n")
+
+def rules_sg():
+  print("You can choose the following: \n")
+  print("1 - web\n")
+  print("2 - db\n")
 
 def terraform_prog(pyTerra):
   welcome()
@@ -30,7 +43,7 @@ def terraform_prog(pyTerra):
     rules()
     action = input("What do you wish to do?\n")
     
-    if action == "9":
+    if action == "-1":
       goodbye()
       return
     
@@ -51,20 +64,22 @@ def terraform_prog(pyTerra):
       continue  
 
     if action == "4":
-      print(pyTerra._open_json())
-      continue  
-    
+      pyTerra.add_instance()
+
     if action == "5":
-      pyTerra.add_micro_instance()
-      continue
-    
+      pyTerra.remove_instance()
+
     if action == "6":
-      pyTerra.add_small_instance()
-      continue
+      pyTerra.add_sg()
     
     if action == "7":
-      pyTerra.remove_last_instance()
-      continue
+      pyTerra.add_sg_rule()
+    
+    if action == "8":
+      pyTerra.remove_sg_rule()
+
+    if action == "9":
+      pyTerra.switch_region()
 
 
 if __name__ == "__main__":

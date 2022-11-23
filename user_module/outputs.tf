@@ -1,3 +1,7 @@
-output "users_arns" {
-  value = { for k, v in aws_iam_user.this : k => v.arn }
-}
+# output "name" {
+#   value = aws_iam_user_login_profile.this.user
+# }
+
+# output "password" {
+#   value = aws_iam_user_login_profile.this.password
+# }
