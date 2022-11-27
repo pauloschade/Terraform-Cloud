@@ -1,10 +1,10 @@
 # Terraform-Cloud
 Dependências:
-```
-python3
-terraform
-aws-cli
-```
+
+* python3
+* terraform
+* aws-cli (caso deseje utilizar para gerenciar chaves)
+
 
 ## configurando credencias:
 
