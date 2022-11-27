@@ -128,6 +128,7 @@ def terraform_prog(pyTerra):
 
     
   goodbye()
+  pyTerra._change_default()
 
 if __name__ == "__main__":
   pyterra = pyTerraform()
