@@ -54,8 +54,7 @@ variable "instances" {
 }
 
 variable "users" {
-  type = list(string)
-  default = ["paulo", "jose"]
+  type = map(bool)
 }
 
 variable "workspaces" {
@@ -74,19 +73,56 @@ variable "workspaces" {
     }
   }
 }
+# ---------------------------------------------------------------------------------------------------------------------
+# ALB
+variable "alb_subnet_details" {
+  type = map(object({
+    cidr_block = string
+    availability_zone = string
+  }))
+  default = {
+    "zone_a" = {
+      cidr_block = "10.0.4.0/24"
+      availability_zone = "a"
+    },
 
-#   type = map(object({
-#     name              = string
-#     rules             = map(object({
-#       rule_type       = string 
-#       cidr            = list(string)
-#       from_port       = number
-#       to_port         = number
-#       protocol        = string
-#     }))
-#   }))
-# }
+    "zone_b" = {
+      cidr_block = "10.0.8.0/24"
+      availability_zone = "b"
+    }
 
-variable "PUBLIC_KEY_PATH" {
-  type = string
+    }
 }
+
+variable "alb_sg_rules" {
+  type       = map(object({
+      rule_type       = string 
+      cidr            = list(string)
+      from_port       = number
+      to_port         = number
+      protocol        = string
+    }))
+
+  default = {
+    "ingress" = { 
+      rule_type = "ingress"
+      cidr = ["0.0.0.0/0"]
+      from_port = 80
+      to_port     = 80
+      protocol = "tcp"
+    },
+    "egress" = { 
+      rule_type = "egress"
+      cidr = ["0.0.0.0/0"]
+      from_port = 0
+      to_port   = 0
+      protocol  = "-1"
+    }
+  }
+}
+
+# ---------------------------------------------------------------------------------------------------------------------
+
+# variable "PUBLIC_KEY_PATH" {
+#   type = string
+# }

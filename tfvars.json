@@ -1,25 +1,15 @@
 {
   "instances": {
-    "pauloUhul-small": {
-      "name": "pauloUhul-small",
+    "pauloFinalTest-small": {
+      "name": "pauloFinalTest-small",
       "security_groups": {
-        "pauloSec": {
-          "name": "pauloSec",
-          "rules": {
-            "ola": {
-              "cidr": [
-                "0.0.0.0/0"
-              ],
-              "from_port": "24",
-              "name": "ola",
-              "protocol": "tcp",
-              "rule_type": "ingress",
-              "to_port": "24"
-            }
-          }
+        "pauloGuard": {
+          "name": "pauloGuard",
+          "rules": {}
         }
       },
       "size": "small"
     }
-  }
+  },
+  "users": {}
 }

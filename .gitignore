@@ -42,3 +42,6 @@ plan.tfout
 *.cer
 *.pem
 *.pub
+
+#env vars
+.env

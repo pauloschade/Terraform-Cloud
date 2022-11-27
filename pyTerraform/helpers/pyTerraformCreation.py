@@ -38,7 +38,7 @@ def add_sg(instance):
 
 def create_instance():
   name = input("Enter instance name: ")
-  size = input("Enter instance size (small/tiny): ")
+  size = input("Enter instance size (small/micro): ")
   instance = Instance(f"{name}-{size}",size)
   add_sg(instance)
   return instance

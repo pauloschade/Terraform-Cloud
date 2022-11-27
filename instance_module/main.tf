@@ -25,5 +25,5 @@ resource "aws_instance" "web" {
   }
   vpc_security_group_ids = [for k, v in module.sg : v.sg_id]
   subnet_id = var.vpc_subnet_id
-  key_name = var.ssh_key_name
+  # key_name = var.ssh_key_name
 }

@@ -31,9 +31,9 @@ variable "vpc_id" {
 #   default = []
 # }
 
-variable "ssh_key_name" {
-  type = string
-}
+# variable "ssh_key_name" {
+#   type = string
+# }
 
 variable "existing_sg_ids" {
   type = list(string)

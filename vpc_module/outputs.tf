@@ -17,3 +17,7 @@ output "vpc_cidr" {
 output "priv_subnet_id" {
   value = aws_subnet.priv.id
 }
+
+output "route_table_id" {
+  value = aws_route_table.pub.id
+}

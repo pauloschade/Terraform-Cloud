@@ -1,25 +1,3 @@
 {
-  "instances": {
-    "pauloWest-small": {
-      "name": "pauloWest-small",
-      "security_groups": {
-        "kanye": {
-          "name": "kanye",
-          "rules": {
-            "kwsr": {
-              "cidr": [
-                "0.0.0.0/0"
-              ],
-              "from_port": "23",
-              "name": "kwsr",
-              "protocol": "tcp",
-              "rule_type": "ingress",
-              "to_port": "23"
-            }
-          }
-        }
-      },
-      "size": "small"
-    }
-  }
+  "instances": {}
 }
