@@ -1,15 +1,4 @@
 {
-  "instances": {
-    "pauloFinalTest-small": {
-      "name": "pauloFinalTest-small",
-      "security_groups": {
-        "pauloGuard": {
-          "name": "pauloGuard",
-          "rules": {}
-        }
-      },
-      "size": "small"
-    }
-  },
+  "instances": {},
   "users": {}
 }
