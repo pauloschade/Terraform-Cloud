@@ -1,44 +1,50 @@
-# Terraform-Cloud
-Dependências:
 
-* python3
-* terraform
-* aws-cli (caso deseje utilizar para gerenciar chaves)
+# Terraform Cloud Setup Guide
 
+## Dependencies
 
-## configurando credencias:
+* `python3`
+* `terraform`
+* `aws-cli` (optional, for managing AWS keys)
 
-rode
-```
+## Configuring AWS Credentials
+
+Run the following command to set up your AWS credentials:
+
+```bash
 aws configure 
 ```
 
-configure com suas chaves
+Then, enter your access keys:
+
 ```
 AWS Access Key ID [None]: {ACCESS_KEY}
 AWS Secret Access Key [None]: {SECRET_ACCESS_KEY}
 ```
 
-## Utilização
+## Usage
 
-### features
-* O projeto permite a criar e deletar instâncias, security groups e regras de security groups
-* É possível alterar a região de trabalho (US-EAST-1 ou US-WEST-1)
-* É possível criar usuários (com limitacões a uma região (us-east-1), ou não)
-* É criada automaticamente uma VPC para as máquinas
-* É criado automaticamente um HA (para testar pare uma instância - criada pelo HA (terá o nome "-") - e veja que o sistema a subirá de volta) 
+### Features
+* The project enables creation and deletion of instances, security groups, and security group rules.
+* You can change the working region (US-EAST-1 or US-WEST-1).
+* User accounts can be created, with optional restriction to a specific region (`us-east-1`) or not.
+* A VPC is automatically created for the machines.
+* An auto-scaling group (HA) is set up automatically. To test, stop an instance created by the HA (identified by a "-"), and the system will bring it back up.
 
-obs: as instâncias criadas por você não faram parte do auto-scalling group
+**Note**: Instances created manually will not be part of the auto-scaling group.
 
-### como usar?
-rode o comando a seguir e siga as instruções
-```
+### How to Use
+
+Run the following command and follow the instructions:
+
+```bash
 python3 main.py
 ```
 
-### observações
-* A região de início é east
-* São utilizados arquivos json (tfvars.json para east e tfvars_alternate.json para west) para controlar as mudanças.
-* Para inicializar escolha a opção 4 (run terraform) e depois 0 (init). Detalhe, rodar o init apaga o conteudo dos jsons.
-* Para confirmar qualquer mudança feita (instancias, security groups e regras ou usuarios), escolha a opção 4 (run terraform) e depois 1 (deploy instances - roda terraform apply)
-* O opção 4 (run terraform) e depois 2 (destroy instances - roda terraform destroy) apaga tudo da atual região
+### Additional Notes
+
+* The default region is `us-east-1`.
+* JSON files (`tfvars.json` for `us-east-1` and `tfvars_alternate.json` for `us-west-1`) are used to manage changes.
+* To initialize, select option `4` (Run Terraform) and then option `0` (Init). **Note**: Running Init will erase the contents of the JSON files.
+* To confirm any changes (instances, security groups, security group rules, or users), choose option `4` (Run Terraform) followed by option `1` (Deploy Instances - runs `terraform apply`).
+* To delete everything in the current region, choose option `4` (Run Terraform) followed by option `2` (Destroy Instances - runs `terraform destroy`).
